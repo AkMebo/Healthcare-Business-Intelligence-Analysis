@@ -1,4 +1,4 @@
-# Healthcare Value-Chain Analysis
+# Healthcare BI Analysis
 
 ## Table of contents
 - [Project Overview](#project_overview)
