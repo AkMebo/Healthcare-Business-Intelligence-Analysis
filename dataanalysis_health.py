@@ -21,9 +21,9 @@ for file_name in files:
     print(file_name, "loaded:", dfs[file_name].shape)
 
 # usage:
-appointment = dfs["Appointment.csv"]
-billing = dfs["Billing.csv"]
-doctor = dfs["Doctor.csv"]
+appointments = dfs["Appointment.csv"]
+billings = dfs["Billing.csv"]
+doctors = dfs["Doctor.csv"]
 procedures = dfs["Medical Procedure.csv"]
 patients = dfs["Patient.csv"]
 
@@ -59,3 +59,19 @@ for col in all_cols:
         for table in tables:
             sample = dfs[table][col].dropna().head(2).tolist()
             print(f"    {table}: {sample}")
+
+# Outer join: patients + appointments + billing on PatientID
+patients_seen_df = patients.merge(appointments, on='PatientID', how='outer').merge(billings, on='PatientID', how='outer')
+
+import pandas as pd
+import numpy as np
+# Data cleaning: Check for missing values and null rows
+patients_seen_df = patients_seen_df['PatientID'].dropna()
+patients_seen_unique_df = patients_seen_df.drop_duplicates() # Remove duplicate patient records if any
+
+
+# Explore the merged DataFrame to see how many patients have appointments and bills
+patients_total_seen = patients_seen_unique_df['InvoiceID'].notna().sum() # Count unique patients with bills
+patients_total_seen = patients_seen_unique_df['InvoiceID'].nunique() # Count unique invoice IDs
+
+
