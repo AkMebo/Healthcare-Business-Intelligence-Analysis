@@ -2,6 +2,10 @@
 
 ## Table of contents
 - [Project Overview](#project_overview)
+- [Data Sources](#data_sources)
+- [Tools](#tools)
+- [Data Manipulation](#data_extraction_,_loading_and_transformation)
+- [Exploratory Analysis](#exploratory_analysis)
 - [Recommendation](#recommendation)
 
 ### Project Overview
