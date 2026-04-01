@@ -18,8 +18,38 @@ Healthcare data: [Healthcare Management System_Data](https://www.kaggle.com/data
 - SQL - Data Cleaning and EDA (Exploratory Data Analysis)
 - Python - Data ETL, Prescriptive Analysis and Data Visualization
 
-### Preparing and installing data in Python
-''' pip install kagglehub
+#### Preparing and installing data in Python
+''' 
+#download dependencies pip install kagglehub[pandas-datasets]
+# download the dataset from Kaggle
+import kagglehub; print('kagglehub imported successfully')
+from kagglehub import KaggleDatasetAdapter
+
+# load dataset directly into Dataframe
+dataset = "anouskaabhisikta/healthcare-management-system"
+files = [
+    "Appointment.csv",
+    "Billing.csv",
+    "Doctor.csv",
+    "Medical Procedure.csv",
+    "Patient.csv",
+]
+
+dfs = {}
+for file_name in files:
+    dfs[file_name] = kagglehub.dataset_load(
+        KaggleDatasetAdapter.PANDAS, #Give me this data as a pandas DataFrame
+        dataset, #Go to this specific dataset on Kaggle
+        file_name, ## Load a DataFrame with a specific version of a CSV
+    )
+    print(file_name, "loaded:", dfs[file_name].shape)
+
+# usage:
+appointments = dfs["Appointment.csv"]
+billing = dfs["Billing.csv"]
+doctor = dfs["Doctor.csv"]
+procedures = dfs["Medical Procedure.csv"]
+patients = dfs["Patient.csv"]
 
 '''
 
