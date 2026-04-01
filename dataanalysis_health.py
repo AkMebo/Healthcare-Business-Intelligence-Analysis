@@ -26,3 +26,6 @@ billing = dfs["Billing.csv"]
 doctor = dfs["Doctor.csv"]
 procedures = dfs["Medical Procedure.csv"]
 patients = dfs["Patient.csv"]
+
+for file_name,df in dfs.items():
+    print(f"{file_name}: {list(df.columns)}")

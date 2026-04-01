@@ -64,9 +64,4 @@ Links to webpage
 Book
 [Stack_overflow]
 
-|Name|Name2|
-
-|....|.....|
-
-|Meme|Meee|
 
