@@ -19,10 +19,8 @@ Healthcare data: [Healthcare Management System_Data](https://www.kaggle.com/data
 - Python - Data ETL, Prescriptive Analysis and Data Visualization
 
 #### Preparing and installing data in Python
-''' 
-#download dependencies pip install kagglehub[pandas-datasets]
-# download the dataset from Kaggle
-import kagglehub; print('kagglehub imported successfully')
+```PYTHON
+import kagglehub; print('kagglehub imported successfully') # download dependencies pip install kagglehub[pandas-datasets]
 from kagglehub import KaggleDatasetAdapter
 
 # load dataset directly into Dataframe
@@ -50,8 +48,7 @@ billing = dfs["Billing.csv"]
 doctor = dfs["Doctor.csv"]
 procedures = dfs["Medical Procedure.csv"]
 patients = dfs["Patient.csv"]
-
-'''
+```
 
 ### Data Cleaning
 
