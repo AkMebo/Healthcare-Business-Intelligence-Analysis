@@ -18,6 +18,11 @@ Healthcare data: [Healthcare Management System_Data](https://www.kaggle.com/data
 - SQL - Data Cleaning and EDA (Exploratory Data Analysis)
 - Python - Data ETL, Prescriptive Analysis and Data Visualization
 
+### Preparing and installing data in Python
+''' pip install kagglehub
+
+'''
+
 ### Data Cleaning
 
 Performed the following tasks: 
