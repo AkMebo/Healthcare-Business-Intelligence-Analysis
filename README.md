@@ -8,9 +8,6 @@
 
 This project will provide insights on the operations of a healthcare facility and also tacle different emerging issues facing healthcare facilities. Covers, revenue, patient visits, cost, service distribution, demographic and correlation with current trend. The data is sourced from Kaggle
 
-[Dashboard](Chart_exp)
-
-![greeting_qlik](https://github.com/user-attachments/assets/db773c55-c72c-4eb2-b395-953a08e35748)
 
 ### Data Sources
 
