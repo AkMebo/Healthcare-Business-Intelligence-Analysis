@@ -17,8 +17,8 @@ This project will provide insights on the operations of a healthcare facility an
 
 ### Data Prerequisites
 
-Data source: Healthcare data: [Healthcare Management System_Data](https://www.kaggle.com/datasets/anouskaabhisikta/healthcare-management-system/data)
-Analytics Tool: Python - Data ETL, Exploratory Analysis and Data Visualization
+- Data source: Healthcare data: [Healthcare Management System_Data](https://www.kaggle.com/datasets/anouskaabhisikta/healthcare-management-system/data)
+- Analytics Tool: Python - Data ETL, Exploratory Analysis and Data Visualization
 
 ### Data Extraction, Loading and Transformation [Python](dataanalysis_health.py)
 
