@@ -2,8 +2,8 @@
 
 ## Table of contents
 - [Project Overview](#project_overview)
-- [Data Sources](#data_sources)
-- [Tools](#tools)
+- [Data Prerequisites](#data_prerequisites)
+- [Data Extraction, Loading and Transformation](#data_extraction_loading_and_transformation)
 - [Data Manipulation](#data_extraction_,_loading_and_transformation)
 - [Exploratory Analysis](#exploratory_analysis)
 - [Recommendation](#recommendation)
@@ -13,12 +13,10 @@
 This project will provide insights on the operations of a healthcare facility and also tacle different emerging issues facing healthcare facilities when it comes to resource allocation. The analysis of the healthcare business is crucial to enable continuous provision of not only good healthcare services but also affordable and reliable healthcare services.Therefore, it's important for healthcare companies to strategies and conduct proper resource planning using data to ensure they are working optimally.
 
 
-### Data Sources
+### Data Prerequisites
 
-Healthcare data: [Healthcare Management System_Data](https://www.kaggle.com/datasets/anouskaabhisikta/healthcare-management-system/data)
-
-### Tools
-- Python - Data ETL, Exploratory Analysis and Data Visualization
+Data source: Healthcare data: [Healthcare Management System_Data](https://www.kaggle.com/datasets/anouskaabhisikta/healthcare-management-system/data)
+Analytics Tool: Python - Data ETL, Exploratory Analysis and Data Visualization
 
 ### Data Extraction, Loading and Transformation [Python](dataanalysis_health.py)
 Performed the following tasks: 
@@ -26,11 +24,12 @@ Performed the following tasks:
 2. Data Cleaning and inspection
 3. Merging and joining of datasets
 4. Handling missing values
-5. Exploratory Data Analysis
-   - Total Revenue, Visits, Revenue per Visit, Growth rates
-6. Data Visualization
-   - Revenue Trends, Visits trends, Billing rates
 
+### Analytics & Visualization [Python](dataanalysis_health.py)
+1. Exploratory Data Analysis
+   - Total Revenue, Visits, Revenue per Visit, Growth rates
+2. Data Visualization
+   - Revenue Trends, Visits trends, Billing rates
 
 ### Key questions being adressed at EDA
 - What is the total visits of patients being billed?
@@ -39,10 +38,10 @@ Performed the following tasks:
 - What is the distribution per service and per billing?
 - Which service has low and high billing rate?
 
-### Data Visualization
-
 
 ### Findings
+#### Tables
+#### Charts
  
 The analysis results were as follows:
 1. The healthcare facility had the lowest revenue in the year with the lowest billing
