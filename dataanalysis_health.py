@@ -66,12 +66,73 @@ patients_seen_df = patients.merge(appointments, on='PatientID', how='outer').mer
 import pandas as pd
 import numpy as np
 # Data cleaning: Check for missing values and null rows
-patients_seen_df = patients_seen_df['PatientID'].dropna()
-patients_seen_unique_df = patients_seen_df.drop_duplicates() # Remove duplicate patient records if any
+patients_seen_df = patients_seen_df.dropna(subset=['PatientID']) # Remove missing values
+patients_seen_unique_df = patients_seen_df.drop_duplicates(subset=['PatientID']) # Remove duplicate patient records if any
+
+patients_seen_unique_df['Year'] = pd.to_datetime(patients_seen_unique_df['Date']).dt.year # Extract year from date
+
+#Create a yearly summary table
+yearly_summary = patients_seen_unique_df.groupby('Year').agg(
+    total_patient_visits=('PatientID', 'count'),
+    total_revenue=('Amount', 'sum'),  # Assuming 'Amount' column exists
+    total_bills=('InvoiceID', 'count'),
+).reset_index()
+
+yearly_summary['revenue_per_visit'] = (yearly_summary['total_revenue']/yearly_summary['total_bills']).round(2)
+yearly_summary['billing_rate'] = (yearly_summary['total_bills']/yearly_summary['total_patient_visits']).round(2)
+
+for col in ['total_revenue', 'revenue_per_visit']:
+    yearly_summary[col] = yearly_summary[col].apply(lambda x: f"{x:,.0f}")
+
+print("\n" + "=" * 30)
+print("YEARLY SUMMARY TABLE")
+print("=" * 30)
+print(yearly_summary.to_string(index=False))
+
+#Add % change
+yearly_summary['revenue_growth'] = (yearly_summary['total_revenue'].pct_change()*100)
+yearly_summary['visits_growth'] = (yearly_summary['total_patient_visits'].pct_change()*100)
+
+print("\n" + "=" * 40)
+print("YEARLY SUMMARY WITH GROWTH RATES")
+print("=" * 40)
+print(yearly_summary.to_string(index=False))
 
 
-# Explore the merged DataFrame to see how many patients have appointments and bills
-patients_total_seen = patients_seen_unique_df['InvoiceID'].notna().sum() # Count unique patients with bills
-patients_total_seen = patients_seen_unique_df['InvoiceID'].nunique() # Count unique invoice IDs
+# Visualizing the data
+import matplotlib as plt
+import seaborn as sns
 
+# Set style
+sns.set_style("whitegrid")
 
+# Create figure with subplots
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+# Plot 1: Total Visits by Year
+axes[0,0].bar(yearly_summary['Year'], yearly_summary['total_patient_visits'], color='steelblue')
+axes[0,0].set_title('Total Patient Visits by Year')
+axes[0,0].set_xlabel('Year')
+axes[0,0].set_ylabel('Number of Visits')
+
+# Plot 2: Total Revenue by Year
+axes[0,1].bar(yearly_summary['Year'], yearly_summary['total_revenue'], color='coral')
+axes[0,1].set_title('Total Revenue by Year')
+axes[0,1].set_xlabel('Year')
+axes[0,1].set_ylabel('Revenue ($)')
+
+# Plot 3: Revenue per Visit Trend
+axes[1,0].plot(yearly_summary['Year'], yearly_summary['revenue_per_visit'], 
+               marker='o', color='green', linewidth=2)
+axes[1,0].set_title('Average Revenue per Visit')
+axes[1,0].set_xlabel('Year')
+axes[1,0].set_ylabel('Revenue per Visit ($)')
+
+# Plot 4: Billing Rate
+axes[1,1].bar(yearly_summary['Year'], yearly_summary['billing_rate'], color='purple')
+axes[1,1].set_title('Billing Rate by Year')
+axes[1,1].set_xlabel('Year')
+axes[1,1].set_ylabel('Billing Rate (%)')
+
+plt.tight_layout()
+plt.show()
