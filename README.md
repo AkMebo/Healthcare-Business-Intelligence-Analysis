@@ -23,10 +23,14 @@ Analytics Tool: Python - Data ETL, Exploratory Analysis and Data Visualization
 ### Data Extraction, Loading and Transformation [Python](dataanalysis_health.py)
 
 Performed the following tasks: 
-1. Data Loading 
-2. Data Cleaning and inspection
-3. Merging and joining of datasets
-4. Handling missing values
+1. Data Loading
+   ```python
+   import kagglehub; print('kagglehub imported successfully')
+   from kagglehub import KaggleDatasetAdapter
+   ```
+3. Data Cleaning and inspection
+4. Merging and joining of datasets
+5. Handling missing values
 
 ### Analytics & Visualization [Python](dataanalysis_health.py)
 
@@ -50,7 +54,6 @@ Performed the following tasks:
 #### Charts
 
 #### Summary 
-
 The analysis results were as follows:
 1. The healthcare facility had the lowest revenue in the year with the lowest billing
 2. The was a consistent decline in revenue in 2021 o 2022 due to .... compared to 2023 where...
