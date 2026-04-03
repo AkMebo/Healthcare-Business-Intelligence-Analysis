@@ -81,17 +81,15 @@ yearly_summary = patients_seen_unique_df.groupby('Year').agg(
 yearly_summary['revenue_per_visit'] = (yearly_summary['total_revenue']/yearly_summary['total_bills']).round(2)
 yearly_summary['billing_rate'] = (yearly_summary['total_bills']/yearly_summary['total_patient_visits']).round(2)
 
-for col in ['total_revenue', 'revenue_per_visit']:
-    yearly_summary[col] = yearly_summary[col].apply(lambda x: f"{x:,.0f}")
-
-print("\n" + "=" * 30)
-print("YEARLY SUMMARY TABLE")
-print("=" * 30)
-print(yearly_summary.to_string(index=False))
-
 #Add % change
 yearly_summary['revenue_growth'] = (yearly_summary['total_revenue'].pct_change()*100)
 yearly_summary['visits_growth'] = (yearly_summary['total_patient_visits'].pct_change()*100)
+for col in ['Year']:
+    yearly_summary[col] = yearly_summary[col].apply(lambda x: f"{x:.0f}")
+for col in ['total_revenue', 'revenue_per_visit']:
+    yearly_summary[col] = yearly_summary[col].apply(lambda x: f"{x:,.0f}")
+for col in ['revenue_growth', 'visits_growth']:
+    yearly_summary[col] = yearly_summary[col].apply(lambda x: f"{x:.1f}%")
 
 print("\n" + "=" * 40)
 print("YEARLY SUMMARY WITH GROWTH RATES")
@@ -100,7 +98,7 @@ print(yearly_summary.to_string(index=False))
 
 
 # Visualizing the data
-import matplotlib as plt
+import matplotlib.pyplot as plt #pip install matplotlib
 import seaborn as sns
 
 # Set style
