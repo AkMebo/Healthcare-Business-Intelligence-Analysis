@@ -4,9 +4,11 @@
 - [Project Overview](#project_overview)
 - [Data Prerequisites](#data_prerequisites)
 - [Data Extraction, Loading and Transformation](#data_extraction_loading_and_transformation)
-- [Data Manipulation](#data_extraction_,_loading_and_transformation)
-- [Exploratory Analysis](#exploratory_analysis)
+- [Analytics & Visualization](#analytics_&_visualization)
+- [Addressed Questions](#key_questions_being_addressed_by_eda)
+- [Results & Findings](#results_&_findings)
 - [Recommendation](#recommendation)
+- [Limitations](#limitations)
 
 ### Project Overview
 
@@ -19,6 +21,7 @@ Data source: Healthcare data: [Healthcare Management System_Data](https://www.ka
 Analytics Tool: Python - Data ETL, Exploratory Analysis and Data Visualization
 
 ### Data Extraction, Loading and Transformation [Python](dataanalysis_health.py)
+
 Performed the following tasks: 
 1. Data Loading 
 2. Data Cleaning and inspection
@@ -26,30 +29,35 @@ Performed the following tasks:
 4. Handling missing values
 
 ### Analytics & Visualization [Python](dataanalysis_health.py)
+
 1. Exploratory Data Analysis
    - Total Revenue, Visits, Revenue per Visit, Growth rates
 2. Data Visualization
    - Revenue Trends, Visits trends, Billing rates
 
-### Key questions being adressed at EDA
+### Key questions being adressed by EDA
+
 - What is the total visits of patients being billed?
 - What percentage of visits are billable?
 - What is the revenue and cost implicated?
 - What is the distribution per service and per billing?
 - Which service has low and high billing rate?
 
-### Findings
+### Results and Findings
+
 #### Tables
 
 #### Charts
 
 #### Summary 
+
 The analysis results were as follows:
 1. The healthcare facility had the lowest revenue in the year with the lowest billing
 2. The was a consistent decline in revenue in 2021 o 2022 due to .... compared to 2023 where...
 3. The speciality with the highest visits was ....
 
 ### Recommendation
+
 Based on the analysis conducted, I would recommend the following:
 - 
 - 
