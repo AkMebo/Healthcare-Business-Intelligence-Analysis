@@ -151,7 +151,7 @@ ax2.tick_params(axis='y', labelcolor='green')
 
 # Format numbers with commas and percent
 ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, p: f'{int(x):,}'))
-ax2.yaxis.set_major_formatter(ticker.PercentFormatter(decimals=0))
+ax2.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, p: f'{x:.1%}'))
 
 # Set x-ticks
 ax1.set_xticks(x)
@@ -165,18 +165,19 @@ for bars in [bars1, bars2]:
                 f'{int(height):,}', ha='center', va='bottom', fontsize=9)
 
 for i, (year, rate) in enumerate(zip(yearly_summary['Year'], yearly_summary['billing_rate'])):
-    ax2.text(year, rate + 1, f'{rate:.1f}%', ha='center', fontsize=9, 
+    ax2.text(year, rate + 1, f'{rate:.2f}', ha='center', fontsize=9, 
              color='green', fontweight='bold')
 
 # Title and legend
 plt.title('Patient Visits, Bills & Billing Rate (2020-2023)', fontsize=14, fontweight='bold')
 lines1, labels1 = ax1.get_legend_handles_labels()
 lines2, labels2 = ax2.get_legend_handles_labels()
-ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left')
+ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper right')
 
 # Grid
 ax1.grid(True, alpha=0.3, axis='y')
 
 plt.savefig('patient_visits_vs_bills.png')
-plt.show()
+plt.show()  
+
 
