@@ -84,13 +84,20 @@ yearly_summary['billing_rate'] = (yearly_summary['total_bills']/yearly_summary['
 #Add % change
 yearly_summary['revenue_growth'] = (yearly_summary['total_revenue'].pct_change()*100)
 yearly_summary['visits_growth'] = (yearly_summary['total_patient_visits'].pct_change()*100)
-for col in ['revenue_growth', 'visits_growth']:
-    yearly_summary[col] = yearly_summary[col].apply(lambda x: f"{x:.1f}%")
+for col in ['Year']:
+    yearly_summary['Year'] = yearly_summary['Year'].apply(lambda x: f"{x:.0f}")
 
 print("\n" + "=" * 40)
 print("YEARLY SUMMARY WITH GROWTH RATES")
 print("=" * 40)
-print(yearly_summary.to_string(index=False))
+print(yearly_summary.to_string(index=False,
+      formatters ={
+          'total_revenue': '${:,.2f}'.format,
+          'revenue_per_visit': '${:,.2f}'.format,
+          'billing_rate': '{:.1%}'.format,
+          'revenue_growth': lambda x: f"{x:.1f}%",
+            'visits_growth': lambda x: f"{x:.1f}%",
+      } ))
 
 
 # Visualizing the data
@@ -111,14 +118,13 @@ axes[0].bar(yearly_summary['Year'], yearly_summary['total_revenue'], color='cora
 axes[0].set_title('Total Revenue by Year')
 axes[0].set_xlabel('Year')
 axes[0].set_ylabel('Revenue ($)')
-axes[0].height_labels = [f'${int(val):,}' for val in yearly_summary['total_revenue']]
+axes[0].yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, p: f'${int(x):,}')) # Format y-axis with commas and dollar sign
 
 # Plot 1: Total Visits by Year
 axes[1].bar(yearly_summary['Year'], yearly_summary['total_patient_visits'], color='steelblue')
 axes[1].set_title('Total Patient Visits by Year')
 axes[1].set_xlabel('Year')
 axes[1].set_ylabel('Number of Visits')
-axes[1].height_labels = [f'{int(val):,}' for val in yearly_summary['total_patient_visits']]
 
 plt.savefig('healthcare_KPI_summary.png') # Save and show
 plt.show()
