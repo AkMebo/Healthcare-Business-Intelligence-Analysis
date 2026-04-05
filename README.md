@@ -35,9 +35,11 @@ Performed the following tasks:
 ### Analytics & Visualization [Python](dataanalysis_health.py)
 
 1. Exploratory Data Analysis
-   - Total Revenue, Visits, Revenue per Visit, Growth rates
+   - Total Revenue, Visits, Revenue per Visit, Growth rates     
 2. Data Visualization
    - Revenue Trends, Visits trends, Billing rates
+  Healthcare Trends (2020 - 2023) - Visits, Revenue
+
 
 ### Key questions being adressed by EDA
 
