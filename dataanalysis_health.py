@@ -84,10 +84,6 @@ yearly_summary['billing_rate'] = (yearly_summary['total_bills']/yearly_summary['
 #Add % change
 yearly_summary['revenue_growth'] = (yearly_summary['total_revenue'].pct_change()*100)
 yearly_summary['visits_growth'] = (yearly_summary['total_patient_visits'].pct_change()*100)
-for col in ['Year']:
-    yearly_summary[col] = yearly_summary[col].apply(lambda x: f"{x:.0f}")
-for col in ['total_revenue', 'revenue_per_visit']:
-    yearly_summary[col] = yearly_summary[col].apply(lambda x: f"{x:,.0f}")
 for col in ['revenue_growth', 'visits_growth']:
     yearly_summary[col] = yearly_summary[col].apply(lambda x: f"{x:.1f}%")
 
@@ -98,39 +94,87 @@ print(yearly_summary.to_string(index=False))
 
 
 # Visualizing the data
+import matplotlib
 import matplotlib.pyplot as plt #pip install matplotlib
+import matplotlib.ticker as ticker
 import seaborn as sns
 
 # Set style
 sns.set_style("whitegrid")
 
+
 # Create figure with subplots
-fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+fig, axes = plt.subplots(1, 2, figsize=(14, 10))
+
+# Plot 1: Total Revenue by Year
+axes[0].bar(yearly_summary['Year'], yearly_summary['total_revenue'], color='coral')
+axes[0].set_title('Total Revenue by Year')
+axes[0].set_xlabel('Year')
+axes[0].set_ylabel('Revenue ($)')
+axes[0].height_labels = [f'${int(val):,}' for val in yearly_summary['total_revenue']]
 
 # Plot 1: Total Visits by Year
-axes[0,0].bar(yearly_summary['Year'], yearly_summary['total_patient_visits'], color='steelblue')
-axes[0,0].set_title('Total Patient Visits by Year')
-axes[0,0].set_xlabel('Year')
-axes[0,0].set_ylabel('Number of Visits')
+axes[1].bar(yearly_summary['Year'], yearly_summary['total_patient_visits'], color='steelblue')
+axes[1].set_title('Total Patient Visits by Year')
+axes[1].set_xlabel('Year')
+axes[1].set_ylabel('Number of Visits')
+axes[1].height_labels = [f'{int(val):,}' for val in yearly_summary['total_patient_visits']]
 
-# Plot 2: Total Revenue by Year
-axes[0,1].bar(yearly_summary['Year'], yearly_summary['total_revenue'], color='coral')
-axes[0,1].set_title('Total Revenue by Year')
-axes[0,1].set_xlabel('Year')
-axes[0,1].set_ylabel('Revenue ($)')
-
-# Plot 3: Revenue per Visit Trend
-axes[1,0].plot(yearly_summary['Year'], yearly_summary['revenue_per_visit'], 
-               marker='o', color='green', linewidth=2)
-axes[1,0].set_title('Average Revenue per Visit')
-axes[1,0].set_xlabel('Year')
-axes[1,0].set_ylabel('Revenue per Visit ($)')
-
-# Plot 4: Billing Rate
-axes[1,1].bar(yearly_summary['Year'], yearly_summary['billing_rate'], color='purple')
-axes[1,1].set_title('Billing Rate by Year')
-axes[1,1].set_xlabel('Year')
-axes[1,1].set_ylabel('Billing Rate (%)')
-
-plt.tight_layout()
+plt.savefig('healthcare_KPI_summary.png') # Save and show
 plt.show()
+
+# Create combo graph
+fig, ax1 = plt.subplots(figsize=(12, 6))
+
+# Bars for visits and bills
+x = np.arange(len(yearly_summary['Year']))
+width = 0.35
+
+bars1 = ax1.bar(x - width/2, yearly_summary['total_patient_visits'], 
+                width, label='Patient Visits', color='steelblue', alpha=0.8)
+bars2 = ax1.bar(x + width/2, yearly_summary['total_bills'], 
+                width, label='Bills', color='coral', alpha=0.8)
+
+# Line for billing rate
+ax2 = ax1.twinx()
+line = ax2.plot(yearly_summary['Year'], yearly_summary['billing_rate'], 
+                color='green', marker='o', linewidth=2.5, markersize=8, 
+                label='Billing Rate')
+
+# Formatting
+ax1.set_xlabel('Year', fontsize=12)
+ax1.set_ylabel('Count', fontsize=12)
+ax2.set_ylabel('Billing Rate (%)', fontsize=12, color='green')
+ax2.tick_params(axis='y', labelcolor='green')
+
+# Format numbers with commas and percent
+ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, p: f'{int(x):,}'))
+ax2.yaxis.set_major_formatter(ticker.PercentFormatter(decimals=1))
+
+# Set x-ticks
+ax1.set_xticks(x)
+ax1.set_xticklabels(yearly_summary['Year'])
+
+# Add value labels
+for bars in [bars1, bars2]:
+    for bar in bars:
+        height = bar.get_height()
+        ax1.text(bar.get_x() + bar.get_width()/2., height,
+                f'{int(height):,}', ha='center', va='bottom', fontsize=9)
+
+for i, (year, rate) in enumerate(zip(yearly_summary['Year'], yearly_summary['billing_rate'])):
+    ax2.text(year, rate + 1, f'{rate:.1f}%', ha='center', fontsize=9, 
+             color='green', fontweight='bold')
+
+# Title and legend
+plt.title('Patient Visits, Bills & Billing Rate (2019-2023)', fontsize=14, fontweight='bold')
+lines1, labels1 = ax1.get_legend_handles_labels()
+lines2, labels2 = ax2.get_legend_handles_labels()
+ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left')
+
+# Grid
+ax1.grid(True, alpha=0.3, axis='y')
+
+plt.savefig('patient_visits_vs_bills.png')
+plt.show()
+
