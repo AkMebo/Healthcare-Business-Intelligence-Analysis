@@ -74,7 +74,7 @@ patients_seen_unique_df['Year'] = pd.to_datetime(patients_seen_unique_df['Date']
 #Create a yearly summary table
 yearly_summary = patients_seen_unique_df.groupby('Year').agg(
     total_patient_visits=('PatientID', 'count'),
-    total_revenue=('Amount', 'sum'),  # Assuming 'Amount' column exists
+    total_revenue=('Amount', 'sum'),  
     total_bills=('InvoiceID', 'count'),
 ).reset_index()
 
