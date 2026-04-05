@@ -38,8 +38,6 @@ Performed the following tasks:
    - Total Revenue, Visits, Revenue per Visit, Growth rates     
 2. Data Visualization
    - Revenue Trends, Visits trends, Billing rates
-  Healthcare Trends (2020 - 2023) - Visits, Revenue
-
 
 ### Key questions being adressed by EDA
 
@@ -51,9 +49,13 @@ Performed the following tasks:
 
 ### Results and Findings
 
-#### Tables
+## Tables
 
-#### Charts
+## Charts
+### Healthcare Trends (2020 - 2023) - Visits, Revenue
+![Healthcare Visits and Revenue Trends](healthcare_KPI_summary.png)
+### Billing rate of actual visits (2020 - 2023)
+![Billing rate](patient_visits_vs_bills.png)
 
 #### Summary 
 The analysis results were as follows:
