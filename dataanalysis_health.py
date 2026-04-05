@@ -145,13 +145,13 @@ line = ax2.plot(yearly_summary['Year'], yearly_summary['billing_rate'],
 
 # Formatting
 ax1.set_xlabel('Year', fontsize=12)
-ax1.set_ylabel('Count', fontsize=12)
+ax1.set_ylabel('Patient visits, bills', fontsize=12)
 ax2.set_ylabel('Billing Rate (%)', fontsize=12, color='green')
 ax2.tick_params(axis='y', labelcolor='green')
 
 # Format numbers with commas and percent
 ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, p: f'{int(x):,}'))
-ax2.yaxis.set_major_formatter(ticker.PercentFormatter(decimals=1))
+ax2.yaxis.set_major_formatter(ticker.PercentFormatter(decimals=0))
 
 # Set x-ticks
 ax1.set_xticks(x)
@@ -169,7 +169,7 @@ for i, (year, rate) in enumerate(zip(yearly_summary['Year'], yearly_summary['bil
              color='green', fontweight='bold')
 
 # Title and legend
-plt.title('Patient Visits, Bills & Billing Rate (2019-2023)', fontsize=14, fontweight='bold')
+plt.title('Patient Visits, Bills & Billing Rate (2020-2023)', fontsize=14, fontweight='bold')
 lines1, labels1 = ax1.get_legend_handles_labels()
 lines2, labels2 = ax2.get_legend_handles_labels()
 ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left')
