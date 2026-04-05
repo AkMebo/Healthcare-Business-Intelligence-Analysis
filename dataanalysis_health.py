@@ -106,10 +106,6 @@ import matplotlib.pyplot as plt #pip install matplotlib
 import matplotlib.ticker as ticker
 import seaborn as sns
 
-# Set style
-sns.set_style("whitegrid")
-
-
 # Create figure with subplots
 fig, axes = plt.subplots(1, 2, figsize=(14, 10))
 
