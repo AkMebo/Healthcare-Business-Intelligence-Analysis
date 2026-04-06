@@ -63,17 +63,20 @@ for col in all_cols:
 
 import pandas as pd
 import numpy as np
-# Outer join: patients + appointments + billing on PatientID
+
+# Joining tables: 
 patients_seen_df = patients.merge(appointments, on='PatientID', how='outer').merge(billings, on='PatientID', how='outer')
 appointments_patientdoc_df = appointments.merge(patients, on= 'PatientID', how= 'outer').merge(doctors, on='DoctorID', how='outer')
 appointments_procedure_df = appointments_patientdoc_df.merge(procedures, on= 'AppointmentID', how= 'left')
+
+# Data cleaning: Drop unnecessary columns and rows with missing key IDs
 columns_to_drop = [
     'DoctorContact',
     'firstname',
     'lastname',
     'email',
 ]
-appointments_procedure_cln = appointments_procedure_df.drop(columns=columns_to_drop)
+appointments_procedure_cln = appointments_procedure_df.drop(columns=columns_to_drop).dropna(subset=['AppointmentID']) # Drop rows with missing key IDs
 appointments_procedure_cln.to_csv('appointments_df.csv', index=False) 
 print(appointments_procedure_cln.to_csv)  #pip install openpyxl for excel
 
@@ -193,5 +196,4 @@ ax1.grid(True, alpha=0.3, axis='y')
 
 plt.savefig('patient_visits_vs_bills.png')
 plt.show()  
-
 
