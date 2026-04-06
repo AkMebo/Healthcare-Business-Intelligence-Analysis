@@ -65,7 +65,17 @@ import pandas as pd
 import numpy as np
 # Outer join: patients + appointments + billing on PatientID
 patients_seen_df = patients.merge(appointments, on='PatientID', how='outer').merge(billings, on='PatientID', how='outer')
-
+appointments_patientdoc_df = appointments.merge(patients, on= 'PatientID', how= 'outer').merge(doctors, on='DoctorID', how='outer')
+appointments_procedure_df = appointments_patientdoc_df.merge(procedures, on= 'AppointmentID', how= 'left')
+columns_to_drop = [
+    'DoctorContact',
+    'firstname',
+    'lastname',
+    'email',
+]
+appointments_procedure_cln = appointments_procedure_df.drop(columns=columns_to_drop)
+appointments_procedure_cln.to_csv('appointments_df.csv', index=False) 
+print(appointments_procedure_cln.to_csv)  #pip install openpyxl for excel
 
 # Data cleaning: Check for missing values and null rows
 patients_seen_df = patients_seen_df.dropna(subset=['PatientID']) # Remove missing values
@@ -130,7 +140,7 @@ plt.savefig('healthcare_KPI_summary.png') # Save and show
 plt.show()
 
 # Create combo graph
-fig, ax1 = plt.subplots(figsize=(8, 6))
+fig, ax1 = plt.subplots(figsize=(8, 6 ))
 
 # Bars for visits and bills
 x = np.arange(len(yearly_summary['Year']))
