@@ -57,7 +57,7 @@ Performed the following tasks:
 ### Billing rate of actual visits (2020 - 2023)
 ![Billing rate](patient_visits_vs_bills.png)
 
-#### Summary 
+### Summary 
 The analysis results were as follows:
 1. The healthcare facility had the lowest revenue in the year with the lowest billing
 2. The was a consistent decline in revenue in 2021 o 2022 due to .... compared to 2023 where...
@@ -65,7 +65,7 @@ The analysis results were as follows:
 
 ### Recommendation
 
-Based on the analysis conducted, I would recommend the following:
+####Based on the analysis conducted, I would recommend the following:
 - 
 - 
 
