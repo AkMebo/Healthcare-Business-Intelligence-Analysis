@@ -3,7 +3,7 @@
 ## Table of contents
 - [Project Overview](#project_overview)
 - [Data Prerequisites](#data_prerequisites)
-- [Data Extraction, Loading and Transformation](#data_extraction,_loading_and_transformation)
+- [Data Extraction Loading and Transformation](#data_extraction_loading_and_transformation)
 - [Analytics & Visualization](#analytics_and_visualization)
 - [Addressed Questions](#key_questions_being_addressed_by_eda)
 - [Results & Findings](#results_and_findings)
