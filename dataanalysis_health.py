@@ -111,7 +111,7 @@ import matplotlib.ticker as ticker
 import seaborn as sns
 
 # Create figure with subplots
-fig, axes = plt.subplots(1, 2, figsize=(14, 10))
+fig, axes = plt.subplots(1, 2, figsize=(10, 6))
 
 # Plot 1: Total Revenue by Year
 axes[0].bar(yearly_summary['Year'], yearly_summary['total_revenue'], color='coral')
@@ -130,7 +130,7 @@ plt.savefig('healthcare_KPI_summary.png') # Save and show
 plt.show()
 
 # Create combo graph
-fig, ax1 = plt.subplots(figsize=(12, 6))
+fig, ax1 = plt.subplots(figsize=(8, 6))
 
 # Bars for visits and bills
 x = np.arange(len(yearly_summary['Year']))
