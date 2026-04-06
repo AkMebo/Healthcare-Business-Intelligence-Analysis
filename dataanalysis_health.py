@@ -34,7 +34,7 @@ for file_name,df in dfs.items():
 from itertools import combinations # for comparing all pairs of columns across tables
 from difflib import SequenceMatcher # for fuzzy string matching (to find similar column names that aren't exact matches)
 
-print("\n" + "="*40) # separator for clarity in output
+print("\n" + "-"*60) # separator for clarity in output
 print("FINDING SIMILAR COLUMNS ACROSS DATASETS")
 print("-"*60) # separator for clarity in output
 
@@ -60,11 +60,13 @@ for col in all_cols:
             sample = dfs[table][col].dropna().head(2).tolist()
             print(f"    {table}: {sample}")
 
-# Outer join: patients + appointments + billing on PatientID
-patients_seen_df = patients.merge(appointments, on='PatientID', how='outer').merge(billings, on='PatientID', how='outer')
 
 import pandas as pd
 import numpy as np
+# Outer join: patients + appointments + billing on PatientID
+patients_seen_df = patients.merge(appointments, on='PatientID', how='outer').merge(billings, on='PatientID', how='outer')
+
+
 # Data cleaning: Check for missing values and null rows
 patients_seen_df = patients_seen_df.dropna(subset=['PatientID']) # Remove missing values
 patients_seen_unique_df = patients_seen_df.drop_duplicates(subset=['PatientID']) # Remove duplicate patient records if any
@@ -87,17 +89,17 @@ yearly_summary['visits_growth'] = (yearly_summary['total_patient_visits'].pct_ch
 for col in ['Year']:
     yearly_summary['Year'] = yearly_summary['Year'].apply(lambda x: f"{x:.0f}")
 
-print("\n" + "=" * 40)
-print("YEARLY SUMMARY WITH GROWTH RATES")
-print("=" * 40)
-print(yearly_summary.to_string(index=False,
-      formatters ={
-          'total_revenue': '${:,.2f}'.format,
-          'revenue_per_visit': '${:,.2f}'.format,
-          'billing_rate': '{:.1%}'.format,
-          'revenue_growth': lambda x: f"{x:.1f}%",
-            'visits_growth': lambda x: f"{x:.1f}%",
-      } ))
+# Create a display version with formatted strings
+display_df = yearly_summary.copy()
+display_df['total_revenue'] = display_df['total_revenue'].apply(lambda x: f"${x:,.2f}")
+display_df['billing_rate'] = display_df['billing_rate'].apply(lambda x: f"{x:.1%}")
+
+# Then convert to markdown
+markdown_table = display_df.to_markdown(index=False, tablefmt='github')
+print("\n" + "="*60)
+print("REVENUE PERFORMANCE WITH GROWTH RATES")
+print("="*60)
+print(markdown_table)
 
 
 # Visualizing the data

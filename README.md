@@ -51,6 +51,15 @@ Performed the following tasks:
 
 ## Tables
 
+REVENUE PERFORMANCE WITH GROWTH RATES
+============================================================
+|   Year |   total_patient_visits | total_revenue   |   total_bills |   revenue_per_visit | billing_rate   |   revenue_growth |   visits_growth |
+|--------|------------------------|-----------------|---------------|---------------------|----------------|------------------|-----------------|
+|   2020 |                    162 | $51,373,131.00  |           107 |              480123 | 66.0%          |       nan        |       nan       |
+|   2021 |                    150 | $51,108,131.00  |           103 |              496195 | 69.0%          |        -0.515834 |        -7.40741 |
+|   2022 |                    133 | $45,386,523.00  |            91 |              498753 | 68.0%          |       -11.1951   |       -11.3333  |
+|   2023 |                    165 | $54,579,158.00  |           109 |              500726 | 66.0%          |        20.2541   |        24.0602  |
+
 ## Charts
 ### Healthcare Trends (2020 - 2023) - Visits, Revenue
 ![Healthcare Visits and Revenue Trends](healthcare_KPI_summary.png)
