@@ -79,6 +79,8 @@ columns_to_drop = [
 appointments_procedure_cln = appointments_procedure_df.drop(columns=columns_to_drop).dropna(subset=['AppointmentID']) # Drop rows with missing key IDs
 appointments_procedure_cln.to_csv('appointments_df.csv', index=False) 
 print(appointments_procedure_cln.to_csv)  #pip install openpyxl for excel
+print(appointments_procedure_cln.columns.tolist())
+
 
 # Data cleaning: Check for missing values and null rows
 patients_seen_df = patients_seen_df.dropna(subset=['PatientID']) # Remove missing values
@@ -197,3 +199,20 @@ ax1.grid(True, alpha=0.3, axis='y')
 plt.savefig('patient_visits_vs_bills.png')
 plt.show()  
 
+# Prepare Data
+
+# First convert 'Date' column to datetime
+appointments_procedure_cln['Date'] = pd.to_datetime(appointments_procedure_cln['Date'])
+# Then extract month-year
+appointments_procedure_cln['Year'] = appointments_procedure_cln['Date'].dt.year
+df_clean_specialization = appointments_procedure_cln.dropna(subset=['Specialization']) # Remove rows with missing specialization
+ 
+
+specialty_trends = appointments_procedure_cln.groupby(['Year', 'Specialization']).size().reset_index(name='visit_count')
+print("Aggregated data:")
+print(specialty_trends.head(10))
+for col in ['Year']:
+    appointments_procedure_cln['Year'] = appointments_procedure_cln['Year'].apply(lambda x: f"{x :.0f}")
+
+print("Total patient visits by specialization:")
+print(specialty_trends.groupby('Specialization')['visit_count'].sum().sort_values(ascending=False))
