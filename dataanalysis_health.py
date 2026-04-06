@@ -75,13 +75,13 @@ patients_seen_unique_df['Year'] = pd.to_datetime(patients_seen_unique_df['Date']
 
 #Create a yearly summary table
 yearly_summary = patients_seen_unique_df.groupby('Year').agg(
-    total_patient_visits=('PatientID', 'count'),
-    total_revenue=('Amount', 'sum'),  
-    total_bills=('InvoiceID', 'count'),
+    total_revenue=('Amount', 'sum'),
+    total_patient_visits=('PatientID', 'nunique'),  
+    total_bills=('InvoiceID', 'nunique'),
 ).reset_index()
 
-yearly_summary['revenue_per_visit'] = (yearly_summary['total_revenue']/yearly_summary['total_bills']).round(2)
 yearly_summary['billing_rate'] = (yearly_summary['total_bills']/yearly_summary['total_patient_visits']).round(2)
+yearly_summary['revenue_per_visit'] = (yearly_summary['total_revenue']/yearly_summary['total_bills']).round(2)
 
 #Add % change
 yearly_summary['revenue_growth'] = (yearly_summary['total_revenue'].pct_change()*100)
@@ -91,12 +91,14 @@ for col in ['Year']:
 
 # Create a display version with formatted strings
 display_df = yearly_summary.copy()
-display_df['total_revenue'] = display_df['total_revenue'].apply(lambda x: f"${x:,.2f}")
+display_df['total_revenue'] = display_df['total_revenue'].apply(lambda x: f"${x:,.0f}")
+display_df['revenue_per_visit'] = display_df['revenue_per_visit'].apply(lambda x: f"${x:,.0f}")
 display_df['billing_rate'] = display_df['billing_rate'].apply(lambda x: f"{x:.1%}")
+display_df['revenue_growth'] = display_df['revenue_growth'].apply(lambda x: f"{x:.1}")
+display_df['visits_growth'] = display_df['visits_growth'].apply(lambda x: f"{x:.1}")
 
 # Then convert to markdown
 markdown_table = display_df.to_markdown(index=False, tablefmt='github')
-print("\n" + "="*60)
 print("REVENUE PERFORMANCE WITH GROWTH RATES")
 print("="*60)
 print(markdown_table)
