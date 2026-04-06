@@ -3,10 +3,10 @@
 ## Table of contents
 - [Project Overview](#project_overview)
 - [Data Prerequisites](#data_prerequisites)
-- [Data Extraction, Loading and Transformation](#data_extraction_loading_and_transformation)
-- [Analytics & Visualization](#analytics_&_visualization)
+- [Data Extraction, Loading and Transformation](#data_extraction,_loading_and_transformation)
+- [Analytics & Visualization](#analytics_and_visualization)
 - [Addressed Questions](#key_questions_being_addressed_by_eda)
-- [Results & Findings](#results_&_findings)
+- [Results & Findings](#results_and_findings)
 - [Recommendation](#recommendation)
 - [Limitations](#limitations)
 
@@ -32,7 +32,7 @@ Performed the following tasks:
 4. Merging and joining of datasets
 5. Handling missing values
 
-### Analytics & Visualization [Python](dataanalysis_health.py)
+### Analytics and Visualization [Python](dataanalysis_health.py)
 
 1. Exploratory Data Analysis
    - Total Revenue, Visits, Revenue per Visit, Growth rates     
