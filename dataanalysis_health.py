@@ -215,8 +215,4 @@ for col in ['Year']:
     appointments_procedure_cln['Year'] = appointments_procedure_cln['Year'].apply(lambda x: f"{x :.0f}")
 
 print("Total patient visits by specialization:")
-<<<<<<< HEAD
 print(specialty_trends.groupby('Specialization')['visit_count'].sum().sort_values(ascending=False))
-=======
-print(specialty_trends.groupby('Specialization')['visit_count'].sum().sort_values(ascending=False))
->>>>>>> d120435ed95afbff861b385a0b6b546bf10429b2
