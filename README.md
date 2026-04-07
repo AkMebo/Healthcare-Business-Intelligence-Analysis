@@ -51,8 +51,7 @@ Performed the following tasks:
 
 ## Tables
 
-REVENUE PERFORMANCE WITH GROWTH RATES
-============================================================
+### Revenue Performance With Growth Rates
 |   Year | total_revenue   |   total_patient_visits |   total_bills | billing_rate   | revenue_per_visit   |   revenue_growth |   visits_growth |
 |--------|-----------------|------------------------|---------------|----------------|---------------------|------------------|-----------------|
 |   2020 | $51,373,131     |                    162 |           107 | 66.0%          | $480,123            |            nan   |             nan |
