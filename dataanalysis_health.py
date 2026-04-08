@@ -124,6 +124,7 @@ import matplotlib
 import matplotlib.pyplot as plt #pip install matplotlib
 import matplotlib.ticker as ticker
 import seaborn as sns
+from matplotlib.ticker import FuncFormatter
 
 # Create figure with subplots
 fig, axes = plt.subplots(1, 2, figsize=(10, 6))
@@ -199,20 +200,101 @@ ax1.grid(True, alpha=0.3, axis='y')
 plt.savefig('patient_visits_vs_bills.png')
 plt.show()  
 
-# Prepare Data
+# Prepare the data - count visits by Year, Specialization, and Procedure
+appointments_procedure_cln['Year'] = pd.to_datetime(appointments_procedure_cln['Date']).dt.year # Extract year from date
+year_procedure = sorted(appointments_procedure_cln['Year'].unique()) # Get unique years for iteration
 
-# First convert 'Date' column to datetime
-appointments_procedure_cln['Date'] = pd.to_datetime(appointments_procedure_cln['Date'])
-# Then extract month-year
-appointments_procedure_cln['Year'] = appointments_procedure_cln['Date'].dt.year
-df_clean_specialization = appointments_procedure_cln.dropna(subset=['Specialization']) # Remove rows with missing specialization
- 
+procedures_visits = appointments_procedure_cln.groupby(
+    ['Year', 'Specialization', 'ProcedureName']
+).size().reset_index(name='visit_procedure_count')
+top_20_specialties = appointments_procedure_cln.groupby('Specialization').size().nlargest(20).index # Top 20 specialties by visit count
+procedure_counts_top20 = procedures_visits[procedures_visits['Specialization'].isin(top_20_specialties)] # Filter to top 20 specialties
 
-specialty_trends = appointments_procedure_cln.groupby(['Year', 'Specialization']).size().reset_index(name='visit_count')
-print("Aggregated data:")
-print(specialty_trends.head(10))
-for col in ['Year']:
-    appointments_procedure_cln['Year'] = appointments_procedure_cln['Year'].apply(lambda x: f"{x :.0f}")
+# Get top 5-10 procedures for better visualization
+top_procedures = procedures_visits.groupby('ProcedureName')['visit_procedure_count'].sum().nlargest(8).index
+procedure_counts_top20 = procedure_counts_top20[procedure_counts_top20['ProcedureName'].isin(top_procedures)]
 
-print("Total patient visits by specialization:")
-print(specialty_trends.groupby('Specialization')['visit_count'].sum().sort_values(ascending=False))
+fig, axes = plt.subplots(2, 2, figsize=(20, 16))
+fig.subplots_adjust(hspace=0.4, wspace=0.3, top=0.92, bottom=0.08, left=0.12, right=0.85)
+fig.suptitle('Top 20 Specialties: Procedure Visit Counts by Year', fontsize=16, fontweight='bold')
+axes_flat = axes.flatten() # Flatten axes for easier iteration
+
+# Create color map for procedures
+colors = plt.cm.tab20(np.linspace(0, 1, len(top_procedures)))
+procedure_colors = dict(zip(top_procedures, colors))
+
+for idx, year in enumerate(year_procedure):
+    # Filter data for the year
+    year_procedure = procedure_counts_top20[procedure_counts_top20['Year'] == year]
+    
+    # Create pivot table: Specialization as rows, Procedure as columns
+    pivot_data = year_procedure.pivot(
+        index='Specialization', 
+        columns='ProcedureName', 
+        values='visit_procedure_count'
+    ).fillna(0)
+    
+    # Ensure all top 20 specializations are present
+    for specialty in top_20_specialties:
+        if specialty not in pivot_data.index:
+            pivot_data.loc[specialty] = 0
+    
+    # Sort by total visits
+    pivot_data['Total'] = pivot_data.sum(axis=1)
+    pivot_data = pivot_data.sort_values('Total', ascending=True) # Sort by total visits
+    pivot_data = pivot_data.drop('Total', axis=1)
+    
+    # Plot stacked horizontal bar chart
+    bottom = np.zeros(len(pivot_data))
+    
+    for procedure in top_procedures:
+        if procedure in pivot_data.columns:
+            values = pivot_data[procedure].values
+            axes_flat[idx].barh(
+                pivot_data.index, 
+                values, 
+                left=bottom,
+                label=procedure,  # Only show legend on first subplot
+                color=procedure_colors[procedure],
+                edgecolor='white',
+                linewidth=0.5
+            )
+            bottom += values
+    
+    # Customize the subplot
+    axes_flat[idx].set_title(f'{year} - Total Visits: {year_procedure["visit_procedure_count"].sum():,}', fontsize=12, fontweight='bold')
+    axes_flat[idx].set_xlabel('Number of Visits', fontsize=10)
+    if idx == 0:
+        axes_flat[idx].set_ylabel('Specialization', fontsize=12, fontweight='semibold', wrap=True)
+
+    # Add grid
+    axes_flat[idx].grid(True, alpha=0.3, axis='x')
+    
+    # Add value labels for total visits at the end of bars
+    for i, (specialty, row) in enumerate(pivot_data.iterrows()):
+        total = row.sum()
+        if total > 0:
+            axes_flat[idx].text(
+                bottom[i] + 0.5, i, 
+                f'{int(total)}', 
+                va='center', ha='left', fontsize=7, alpha=0.8
+            )
+
+# Add single legend for the entire figure with adjusted position to prevent overlap
+handles, labels = axes_flat[0].get_legend_handles_labels()
+fig.legend(
+    handles, labels, 
+    title='Procedure Type', 
+    title_fontsize=12,
+    bbox_to_anchor=(1.02, 0.5), 
+    loc='center left',
+    fontsize=9,
+    frameon=True,
+    shadow=True
+)
+
+# Adjust layout to prevent any overlap
+plt.tight_layout(rect=[0, 0, 0.85, 0.97])
+plt.savefig('procedure_visits_by_specialty.png', bbox_inches='tight') # Save and show
+plt.show()
+
