@@ -64,6 +64,9 @@ Performed the following tasks:
 ![Healthcare Visits and Revenue Trends](healthcare_KPI_summary.png)
 ### Billing rate of actual visits (2020 - 2023)
 ![Billing rate](patient_visits_vs_bills.png)
+### Top Specialization Visits per year (2020 - 2023)
+![Top Specialization Visits](procedure_visits_by_specialty.png)
+### Top Revenue and Revenue per Visit by specialization (2020 - 2023)
 
 ### Summary 
 The analysis results were as follows:
