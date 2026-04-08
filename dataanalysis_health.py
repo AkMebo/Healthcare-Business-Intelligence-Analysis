@@ -67,7 +67,8 @@ import numpy as np
 # Joining tables: 
 patients_seen_df = patients.merge(appointments, on='PatientID', how='outer').merge(billings, on='PatientID', how='outer')
 appointments_patientdoc_df = appointments.merge(patients, on= 'PatientID', how= 'outer').merge(doctors, on='DoctorID', how='outer')
-appointments_procedure_df = appointments_patientdoc_df.merge(procedures, on= 'AppointmentID', how= 'left')
+appointments_procedure_df = appointments_patientdoc_df.merge(procedures, on= 'AppointmentID', how= 'left').merge(billings, on= 'PatientID', how= 'left')
+
 
 # Data cleaning: Drop unnecessary columns and rows with missing key IDs
 columns_to_drop = [
@@ -265,7 +266,7 @@ for idx, year in enumerate(year_procedure):
     axes_flat[idx].set_title(f'{year} - Total Visits: {year_procedure["visit_procedure_count"].sum():,}', fontsize=12, fontweight='bold')
     axes_flat[idx].set_xlabel('Number of Visits', fontsize=10)
     if idx == 0:
-        axes_flat[idx].set_ylabel('Specialization', fontsize=12, fontweight='semibold', wrap=True)
+        axes_flat[idx].set_ylabel('Specialization', fontsize=14, fontweight='semibold', wrap=True)
 
     # Add grid
     axes_flat[idx].grid(True, alpha=0.3, axis='x')
@@ -298,3 +299,106 @@ plt.tight_layout(rect=[0, 0, 0.85, 0.97])
 plt.savefig('procedure_visits_by_specialty.png', bbox_inches='tight') # Save and show
 plt.show()
 
+# Specializations Revenue Yearly Trend and RPV
+fig, axes = plt.subplots(1, 2, figsize=(14, 7))
+fig.suptitle('Top 5 Specializations: Revenue Analysis', fontsize=14, fontweight='bold', y=1.02)
+
+# Get top 5 specializations by total revenue
+top_5_specialties = appointments_procedure_cln.groupby(['Specialization'])['Amount'].sum().nlargest(5).index.tolist()
+
+print(appointments_procedure_cln.columns.tolist())
+# Create pivot table for revenue by specialization and year 
+revenue_pivot = appointments_procedure_cln[appointments_procedure_cln['Specialization'].isin(top_5_specialties)].pivot_table(
+    index='Specialization',
+    columns='Year',
+    values='Amount',
+    aggfunc='sum',
+    fill_value=0
+)
+
+revenue_pivot['Total'] = revenue_pivot.sum(axis=1) # Sort by total revenue
+revenue_pivot = revenue_pivot.sort_values('Total', ascending=True)
+revenue_pivot = revenue_pivot.drop('Total', axis=1)
+
+# Format revenue values
+def format_revenue(x):
+    if x >= 1_000_000:
+        return f'${x/1_000_000:.1f}M'
+    elif x >= 1_000:
+        return f'${x/1_000:.0f}K'
+    else:
+        return f'${x:,.0f}'
+
+# Format table data
+table_data = revenue_pivot.copy()
+for col in table_data.columns:
+    table_data[col] = table_data[col].apply(format_revenue)
+
+# Hide axes for table
+axes[0].axis('tight')
+axes[0].axis('off')
+
+# Create table
+revenue_table = axes[0].table(
+    cellText=table_data.values,
+    rowLabels=table_data.index,
+    colLabels=table_data.columns,
+    cellLoc='center',
+    loc='center',
+    bbox=[0, 0, 1, 1]
+)
+
+# Style table
+revenue_table.auto_set_font_size(False)
+revenue_table.set_fontsize(10)
+revenue_table.scale(1.2, 1.6)
+
+# Color header
+for (row, col), cell in revenue_table.get_celld().items():
+    if row == 0:
+        cell.set_facecolor('#2c3e50')
+        cell.set_text_props(weight='bold', color='white')
+    else:
+        cell.set_facecolor('#ecf0f1')
+    cell.set_edgecolor('#bdc3c7')
+
+axes[0].set_title('Revenue by Year (Top 5 Specializations)', 
+                  fontsize=11, fontweight='bold', pad=20)
+
+# Revenue Per Visit (Bar Chart)
+# Calculate revenue per visit for all specializations
+revenue_per_visit = df.groupby('Specialization').agg({
+    'Amount': 'sum',
+    'PatientID': 'nunique'
+}).reset_index()
+
+revenue_per_visit['Revenue Per Visit'] = revenue_per_visit['Amount'] / revenue_per_visit['PatientID']
+revenue_per_visit = revenue_per_visit.sort_values('Revenue Per Visit', ascending=True).head(10)
+
+# Create horizontal bar chart
+colors = plt.cm.viridis(np.linspace(0.2, 0.9, len(revenue_per_visit)))
+bars = axes[1].barh(range(len(revenue_per_visit)), 
+                     revenue_per_visit['Revenue Per Visit'], 
+                     color=colors)
+
+# Customize chart
+axes[1].set_yticks(range(len(revenue_per_visit)))
+axes[1].set_yticklabels(revenue_per_visit['Specialization'], fontsize=9)
+axes[1].set_xlabel('Revenue Per Visit ($)', fontsize=10, fontweight='semibold')
+axes[1].set_title('Top 10 Specializations by Revenue Per Visit', 
+                  fontsize=11, fontweight='bold', pad=20)
+
+# Add value labels
+for i, (bar, value) in enumerate(zip(bars, revenue_per_visit['Revenue Per Visit'])):
+    axes[1].text(bar.get_width() + 5, bar.get_y() + bar.get_height()/2, 
+                 f'${value:,.0f}', va='center', ha='left', fontsize=8)
+
+# Add grid
+axes[1].grid(True, alpha=0.3, axis='x')
+
+# Adjust layout
+plt.tight_layout()
+
+# Save and show
+plt.savefig('specialization_revenue_analysis.png', bbox_inches='tight', dpi=300)
+plt.show()
