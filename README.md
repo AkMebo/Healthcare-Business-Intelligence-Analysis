@@ -28,9 +28,45 @@ Performed the following tasks:
    import kagglehub; print('kagglehub imported successfully')
    from kagglehub import KaggleDatasetAdapter
    ```
-3. Data Cleaning and inspection
-4. Merging and joining of datasets
-5. Handling missing values
+2. Data Inspection and Cleaning
+   ```python
+   for file_name,df in dfs.items():
+    print(f"{file_name}: listcolumns={df.columns}")
+
+   from itertools import combinations # for comparing all pairs of columns across tables
+  from difflib import SequenceMatcher # for fuzzy string matching 
+   
+   print("FINDING SIMILAR COLUMNS ACROSS DATASETS")
+   print("-"*60) # separator for clarity in output
+
+   all_columns = {table: set(df.columns) for table, df in dfs.items()}
+
+   print("\n>>> ALL UNIQUE COLUMN NAMES")
+   all_cols = sorted(set().union(*all_columns.values()))
+   for col in all_cols:
+    print(f"  {col}")
+
+   print("\n>>> EXACT MATCHES (columns with same name)")
+   print("-" * 60)
+   for col in all_cols:
+    tables = [t for t, cols in all_columns.items() if col in cols]
+    if len(tables) > 1:
+        print(f"\n  Column: '{col}'")
+        print(f"  Found in: {', '.join(tables)}")
+        for table in tables:
+            sample = dfs[table][col].dropna().head(2).tolist()
+            print(f"    {table}: {sample}")
+   ```
+3. Merging and joining of datasets
+   ```python
+   appointments_patientdoc_df = appointments.merge(patients, on= 'PatientID', how= 'outer').merge(doctors, on='DoctorID', how='outer')
+  appointments_procedure_df = appointments_patientdoc_df.merge(procedures, on= 'AppointmentID', how= 'left').merge(billings, on= 'PatientID', how= 'left')
+   ```
+4. Handling missing values
+   ```python
+  appointments_procedure_cln = appointments_procedure_df.drop(columns=columns_to_drop).dropna(subset=['AppointmentID']) # Drop rows with missing key IDs
+   ```
+
 
 ### Analytics and Visualization [Python](dataanalysis_health.py)
 
@@ -58,9 +94,6 @@ Performed the following tasks:
 |   2021 | $51,108,131     |                    150 |           103 | 69.0%          | $496,195            |             -0.5 |              -7 |
 |   2022 | $45,386,523     |                    133 |            91 | 68.0%          | $498,753            |            -10   |             -10 |
 |   2023 | $54,579,158     |                    165 |           109 | 66.0%          | $500,726            |             20   |              20 |
-
-### Revenue Per Specialization
-![Revenue per Specialization](specialization_revenue_analysis.png)
 
 
 ## Charts
@@ -91,7 +124,7 @@ The analysis results were as follows:
 - The analysis is a year on year (YoY) which is biased compared to a Month on Month time series analysis
 
 ### References
-- The ERP data of the healthcare facility was sourced from Kaggle 
+- Secondary data of the healthcare facility was sourced from Kaggle 
 - AI tools and Python documentation was used to write and revise the python codes
 
 
