@@ -59,6 +59,10 @@ Performed the following tasks:
 |   2022 | $45,386,523     |                    133 |            91 | 68.0%          | $498,753            |            -10   |             -10 |
 |   2023 | $54,579,158     |                    165 |           109 | 66.0%          | $500,726            |             20   |              20 |
 
+### Revenue Per Specialization
+![Revenue per Specialization](specialization_revenue_analysis.png)
+
+
 ## Charts
 ### Healthcare Trends (2020 - 2023) - Visits, Revenue
 ![Healthcare Visits and Revenue Trends](healthcare_KPI_summary.png)
@@ -66,12 +70,14 @@ Performed the following tasks:
 ![Billing rate](patient_visits_vs_bills.png)
 ### Top Specialization Visits per year (2020 - 2023)
 ![Top Specialization Visits](procedure_visits_by_specialty.png)
-### Top Revenue and Revenue per Visit by specialization (2020 - 2023)
+### Top Revenue and Cost per Visit by specialization (2020 - 2023)
+![Revenue per Specialization](specialization_revenue_analysis.png)
 
 ### Summary 
 The analysis results were as follows:
-1. The healthcare facility had the lowest revenue in the year with the lowest billing
-2. The was a consistent decline in revenue in 2021 o 2022 due to .... compared to 2023 where...
+1. The healthcare facility had a consistent decline in revenue and visits from 2020 to 2022 but registered a sharp increase of 20% in 2023.
+2. It is evident that the billing rate of the patients booked has no direct correlation with the growth in revenue or visits, the performance of the facility is significantly influence by the number of patients visits and the cost of service.
+- As observed in 2023, the facility had 66% billing rate of appointments but has the highest growth rate due to its high cost per vist and patient visits.
 3. The speciality with the highest visits was ....
 
 ### Recommendation

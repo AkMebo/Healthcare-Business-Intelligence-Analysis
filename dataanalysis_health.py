@@ -208,16 +208,16 @@ year_procedure = sorted(appointments_procedure_cln['Year'].unique()) # Get uniqu
 procedures_visits = appointments_procedure_cln.groupby(
     ['Year', 'Specialization', 'ProcedureName']
 ).size().reset_index(name='visit_procedure_count')
-top_20_specialties = appointments_procedure_cln.groupby('Specialization').size().nlargest(20).index # Top 20 specialties by visit count
-procedure_counts_top20 = procedures_visits[procedures_visits['Specialization'].isin(top_20_specialties)] # Filter to top 20 specialties
+top_10_specialties = appointments_procedure_cln.groupby('Specialization').size().nlargest(10).index # Top 10 specialties by visit count
+procedure_counts_top10 = procedures_visits[procedures_visits['Specialization'].isin(top_10_specialties)] # Filter to top 10 specialties
 
 # Get top 5-10 procedures for better visualization
-top_procedures = procedures_visits.groupby('ProcedureName')['visit_procedure_count'].sum().nlargest(8).index
-procedure_counts_top20 = procedure_counts_top20[procedure_counts_top20['ProcedureName'].isin(top_procedures)]
+top_procedures = procedures_visits.groupby('ProcedureName')['visit_procedure_count'].sum().nlargest(10).index
+procedure_counts_top10 = procedure_counts_top10[procedure_counts_top10['ProcedureName'].isin(top_procedures)]
 
 fig, axes = plt.subplots(2, 2, figsize=(20, 16))
 fig.subplots_adjust(hspace=0.4, wspace=0.3, top=0.92, bottom=0.08, left=0.12, right=0.85)
-fig.suptitle('Top 20 Specialties: Procedure Visit Counts by Year', fontsize=16, fontweight='bold')
+fig.suptitle('Top 10 Specialties: Procedure Visit Counts by Year', fontsize=16, fontweight='bold')
 axes_flat = axes.flatten() # Flatten axes for easier iteration
 
 # Create color map for procedures
@@ -226,7 +226,7 @@ procedure_colors = dict(zip(top_procedures, colors))
 
 for idx, year in enumerate(year_procedure):
     # Filter data for the year
-    year_procedure = procedure_counts_top20[procedure_counts_top20['Year'] == year]
+    year_procedure = procedure_counts_top10[procedure_counts_top10['Year'] == year]
     
     # Create pivot table: Specialization as rows, Procedure as columns
     pivot_data = year_procedure.pivot(
@@ -235,8 +235,8 @@ for idx, year in enumerate(year_procedure):
         values='visit_procedure_count'
     ).fillna(0)
     
-    # Ensure all top 20 specializations are present
-    for specialty in top_20_specialties:
+    # Ensure all top 10 specializations are present
+    for specialty in top_10_specialties:
         if specialty not in pivot_data.index:
             pivot_data.loc[specialty] = 0
     
@@ -266,7 +266,7 @@ for idx, year in enumerate(year_procedure):
     axes_flat[idx].set_title(f'{year} - Total Visits: {year_procedure["visit_procedure_count"].sum():,}', fontsize=12, fontweight='bold')
     axes_flat[idx].set_xlabel('Number of Visits', fontsize=10)
     if idx == 0:
-        axes_flat[idx].set_ylabel('Specialization', fontsize=14, fontweight='semibold', wrap=True)
+        axes_flat[idx].set_ylabel('Specialization', fontsize=18, fontweight='semibold', wrap=True)
 
     # Add grid
     axes_flat[idx].grid(True, alpha=0.3, axis='x')
@@ -295,7 +295,7 @@ fig.legend(
 )
 
 # Adjust layout to prevent any overlap
-plt.tight_layout(rect=[0, 0, 0.85, 0.97])
+plt.tight_layout(rect=[0, 0, 0.95, 0.97])
 plt.savefig('procedure_visits_by_specialty.png', bbox_inches='tight') # Save and show
 plt.show()
 
