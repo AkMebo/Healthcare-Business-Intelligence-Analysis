@@ -301,14 +301,14 @@ plt.show()
 
 # Specializations Revenue Yearly Trend and RPV
 fig, axes = plt.subplots(1, 2, figsize=(14, 7))
-fig.suptitle('Top 5 Specializations: Revenue Analysis', fontsize=14, fontweight='bold', y=1.02)
+fig.suptitle('Top 15 Specializations: Revenue Analysis', fontsize=14, fontweight='bold', y=1.02)
 
-# Get top 5 specializations by total revenue
-top_5_specialties = appointments_procedure_cln.groupby('Specialization')['Amount'].sum().nlargest(5).index.tolist()
+# Get top 15 specializations by total revenue
+top_15_specialties = appointments_procedure_cln.groupby('Specialization')['Amount'].sum().nlargest(15).index.tolist()
 
 print(appointments_procedure_cln.columns.tolist())
 # Create pivot table for revenue by specialization and year 
-revenue_pivot = appointments_procedure_cln[appointments_procedure_cln['Specialization'].isin(top_5_specialties)].pivot_table(
+revenue_pivot = appointments_procedure_cln[appointments_procedure_cln['Specialization'].isin(top_15_specialties)].pivot_table(
     index='Specialization',
     columns='Year',
     values='Amount',
@@ -362,7 +362,7 @@ for (row, col), cell in revenue_table.get_celld().items():
         cell.set_facecolor('#ecf0f1')
     cell.set_edgecolor('#bdc3c7')
 
-axes[0].set_title('Revenue by Year (Top 5 Specializations)', 
+axes[0].set_title('Revenue by Year (Top 15 Specializations)', 
                   fontsize=11, fontweight='bold', pad=20)
 
 # Revenue Per Visit (Bar Chart)
