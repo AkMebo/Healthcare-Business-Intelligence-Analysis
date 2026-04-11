@@ -304,7 +304,7 @@ fig, axes = plt.subplots(1, 2, figsize=(14, 7))
 fig.suptitle('Top 5 Specializations: Revenue Analysis', fontsize=14, fontweight='bold', y=1.02)
 
 # Get top 5 specializations by total revenue
-top_5_specialties = appointments_procedure_cln.groupby(['Specialization'])['Amount'].sum().nlargest(5).index.tolist()
+top_5_specialties = appointments_procedure_cln.groupby('Specialization')['Amount'].sum().nlargest(5).index.tolist()
 
 print(appointments_procedure_cln.columns.tolist())
 # Create pivot table for revenue by specialization and year 
@@ -317,7 +317,7 @@ revenue_pivot = appointments_procedure_cln[appointments_procedure_cln['Specializ
 )
 
 revenue_pivot['Total'] = revenue_pivot.sum(axis=1) # Sort by total revenue
-revenue_pivot = revenue_pivot.sort_values('Total', ascending=True)
+revenue_pivot = revenue_pivot.sort_values('Total', ascending=False)
 revenue_pivot = revenue_pivot.drop('Total', axis=1)
 
 # Format revenue values
@@ -367,12 +367,12 @@ axes[0].set_title('Revenue by Year (Top 5 Specializations)',
 
 # Revenue Per Visit (Bar Chart)
 # Calculate revenue per visit for all specializations
-revenue_per_visit = appointments_procedure_cln.groupby('Specialization').agg({
-    'Amount': 'sum',
-    'PatientID': 'nunique'
-}).reset_index()
+revenue_per_visit = appointments_procedure_cln.groupby('Specialization').agg(
+    procedure_amount=('Amount', 'sum'),
+    patient_count=('PatientID', 'nunique')
+).reset_index()
 
-revenue_per_visit['Revenue Per Visit'] = revenue_per_visit['Amount'] / revenue_per_visit['PatientID']
+revenue_per_visit['Revenue Per Visit'] = revenue_per_visit['procedure_amount'] / revenue_per_visit['patient_count']
 revenue_per_visit = revenue_per_visit.sort_values('Revenue Per Visit', ascending=True).head(10)
 
 # Create horizontal bar chart
