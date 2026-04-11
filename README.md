@@ -34,7 +34,7 @@ Performed the following tasks:
     print(f"{file_name}: listcolumns={df.columns}")
 
    from itertools import combinations # for comparing all pairs of columns across tables
-  from difflib import SequenceMatcher # for fuzzy string matching 
+   from difflib import SequenceMatcher # for fuzzy string matching 
    
    print("FINDING SIMILAR COLUMNS ACROSS DATASETS")
    print("-"*60) # separator for clarity in output
@@ -60,13 +60,12 @@ Performed the following tasks:
 3. Merging and joining of datasets
    ```python
    appointments_patientdoc_df = appointments.merge(patients, on= 'PatientID', how= 'outer').merge(doctors, on='DoctorID', how='outer')
-  appointments_procedure_df = appointments_patientdoc_df.merge(procedures, on= 'AppointmentID', how= 'left').merge(billings, on= 'PatientID', how= 'left')
+   appointments_procedure_df = appointments_patientdoc_df.merge(procedures, on= 'AppointmentID', how= 'left').merge(billings, on= 'PatientID', how= 'left')
    ```
 4. Handling missing values
    ```python
-  appointments_procedure_cln = appointments_procedure_df.drop(columns=columns_to_drop).dropna(subset=['AppointmentID']) # Drop rows with missing key IDs
+   appointments_procedure_cln = appointments_procedure_df.drop(columns=columns_to_drop).dropna(subset=['AppointmentID']) # Drop rows with missing key IDs
    ```
-
 
 ### Analytics and Visualization [Python](dataanalysis_health.py)
 
