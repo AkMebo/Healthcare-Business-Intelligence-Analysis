@@ -78,7 +78,7 @@ The analysis results were as follows:
 1. The healthcare facility had a consistent decline in revenue and visits from 2020 to 2022 but registered a sharp increase of 20% in 2023.
 2. It is evident that the billing rate of the patients booked has no direct correlation with the growth in revenue or visits, the performance of the facility is significantly influence by the number of patients visits and the cost of service.
 - As observed in 2023, the facility had 66% billing rate of appointments but has the highest growth rate due to its high cost per vist and patient visits.
-3. The speciality with the highest visits was ....
+3. The specialization that i
 
 ### Recommendation
 #### Based on the analysis conducted, I would recommend the following:

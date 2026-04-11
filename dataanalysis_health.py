@@ -263,8 +263,8 @@ for idx, year in enumerate(year_procedure):
             bottom += values
     
     # Customize the subplot
-    axes_flat[idx].set_title(f'{year} - Total Visits: {year_procedure["visit_procedure_count"].sum():,}', fontsize=12, fontweight='bold')
-    axes_flat[idx].set_xlabel('Number of Visits', fontsize=10)
+    axes_flat[idx].set_title(f'{year} - Total Visits: {year_procedure["visit_procedure_count"].sum():,}', fontsize=18, fontweight='bold')
+    axes_flat[idx].set_xlabel('Number of Visits', fontsize=18)
     if idx == 0:
         axes_flat[idx].set_ylabel('Specialization', fontsize=18, fontweight='semibold', wrap=True)
 
@@ -278,7 +278,7 @@ for idx, year in enumerate(year_procedure):
             axes_flat[idx].text(
                 bottom[i] + 0.5, i, 
                 f'{int(total)}', 
-                va='center', ha='left', fontsize=7, alpha=0.8
+                va='center', ha='left', fontsize=12, alpha=0.8
             )
 
 # Add single legend for the entire figure with adjusted position to prevent overlap
@@ -289,8 +289,7 @@ fig.legend(
     title_fontsize=12,
     bbox_to_anchor=(1.02, 0.5), 
     loc='center left',
-    fontsize=9,
-    frameon=True,
+    fontsize=12,
     shadow=True
 )
 
