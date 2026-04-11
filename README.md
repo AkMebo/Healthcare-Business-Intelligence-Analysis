@@ -83,14 +83,16 @@ The analysis results were as follows:
 
 ### Recommendation
 #### Based on the analysis conducted, I would recommend the following:
-- The facility should consider increasing their prices for Radiology and Allergists which are their most sorted out services to increase revenue.
-- There should be an increase in marketing done on the services to increase traffic of patients.
+- The facility should consider increasing marketing of their top services and procedures to attract more visits.
+- The cost per service can also be reviewed downwards to increase the number of visits
 
 ### Limitations
-- The zero values in PatientsID were removed since they are considured as no visits
+- The null values on primary keys were exempted from the analysis
+- The analysis is a year on year (YoY) which is biased compared to a Month on Month time series analysis
 
 ### References
-- Kaggle
+- The ERP data of the healthcare facility was sourced from Kaggle 
+- AI tools and Python documentation was used to write and revise the python codes
 
 
 
