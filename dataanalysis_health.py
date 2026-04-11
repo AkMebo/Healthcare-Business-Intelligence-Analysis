@@ -215,9 +215,9 @@ procedure_counts_top10 = procedures_visits[procedures_visits['Specialization'].i
 top_procedures = procedures_visits.groupby('ProcedureName')['visit_procedure_count'].sum().nlargest(10).index
 procedure_counts_top10 = procedure_counts_top10[procedure_counts_top10['ProcedureName'].isin(top_procedures)]
 
-fig, axes = plt.subplots(2, 2, figsize=(20, 16))
+fig, axes = plt.subplots(2, 2, figsize=(15, 12))
 fig.subplots_adjust(hspace=0.4, wspace=0.3, top=0.92, bottom=0.08, left=0.12, right=0.85)
-fig.suptitle('Top 10 Specialties: Procedure Visit Counts by Year', fontsize=16, fontweight='bold')
+fig.suptitle('Top 10 Specialties: Procedure Visit Counts by Year', fontsize=12, fontweight='bold')
 axes_flat = axes.flatten() # Flatten axes for easier iteration
 
 # Create color map for procedures
@@ -263,10 +263,10 @@ for idx, year in enumerate(year_procedure):
             bottom += values
     
     # Customize the subplot
-    axes_flat[idx].set_title(f'{year} - Total Visits: {year_procedure["visit_procedure_count"].sum():,}', fontsize=18, fontweight='bold')
-    axes_flat[idx].set_xlabel('Number of Visits', fontsize=18)
+    axes_flat[idx].set_title(f'{year} - Total Visits: {year_procedure["visit_procedure_count"].sum():,}', fontsize=14, fontweight='bold')
+    axes_flat[idx].set_xlabel('Number of Visits', fontsize=12, fontweight='semibold')
     if idx == 0:
-        axes_flat[idx].set_ylabel('Specialization', fontsize=18, fontweight='semibold', wrap=True)
+        axes_flat[idx].set_ylabel('Specialization', fontsize=12, fontweight='semibold', wrap=True)
 
     # Add grid
     axes_flat[idx].grid(True, alpha=0.3, axis='x')
