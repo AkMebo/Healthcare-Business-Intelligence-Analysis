@@ -367,7 +367,7 @@ axes[0].set_title('Revenue by Year (Top 5 Specializations)',
 
 # Revenue Per Visit (Bar Chart)
 # Calculate revenue per visit for all specializations
-revenue_per_visit = df.groupby('Specialization').agg({
+revenue_per_visit = appointments_procedure_cln.groupby('Specialization').agg({
     'Amount': 'sum',
     'PatientID': 'nunique'
 }).reset_index()
