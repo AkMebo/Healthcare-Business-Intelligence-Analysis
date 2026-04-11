@@ -369,7 +369,7 @@ axes[0].set_title('Revenue by Year (Top 15 Specializations)',
 # Calculate revenue per visit for all specializations
 revenue_per_visit = appointments_procedure_cln.groupby('Specialization').agg(
     procedure_amount=('Amount', 'sum'),
-    patient_count=('PatientID', 'nunique')
+    patient_count=('PatientID', 'sum')
 ).reset_index()
 
 revenue_per_visit['Revenue Per Visit'] = revenue_per_visit['procedure_amount'] / revenue_per_visit['patient_count']
