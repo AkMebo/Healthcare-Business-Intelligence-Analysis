@@ -367,29 +367,29 @@ axes[0].set_title('Revenue by Year (Top 15 Specializations)',
 
 # Revenue Per Visit (Bar Chart)
 # Calculate revenue per visit for all specializations
-revenue_per_visit = appointments_procedure_cln.groupby('Specialization').agg(
+cost_per_visit = appointments_procedure_cln.groupby('Specialization').agg(
     procedure_amount=('Amount', 'sum'),
     patient_count=('PatientID', 'sum')
 ).reset_index()
 
-revenue_per_visit['Revenue Per Visit'] = revenue_per_visit['procedure_amount'] / revenue_per_visit['patient_count']
-revenue_per_visit = revenue_per_visit.sort_values('Revenue Per Visit', ascending=True).head(10)
+cost_per_visit['Cost Per Visit'] = cost_per_visit['procedure_amount'] / cost_per_visit['patient_count']
+cost_per_visit = cost_per_visit.sort_values('Cost Per Visit', ascending=True).head(15)
 
 # Create horizontal bar chart
-colors = plt.cm.viridis(np.linspace(0.2, 0.9, len(revenue_per_visit)))
-bars = axes[1].barh(range(len(revenue_per_visit)), 
-                     revenue_per_visit['Revenue Per Visit'], 
+colors = plt.cm.viridis(np.linspace(0.2, 0.9, len(cost_per_visit)))
+bars = axes[1].barh(range(len(cost_per_visit)), 
+                     cost_per_visit['Cost Per Visit'], 
                      color=colors)
 
 # Customize chart
-axes[1].set_yticks(range(len(revenue_per_visit)))
-axes[1].set_yticklabels(revenue_per_visit['Specialization'], fontsize=9)
-axes[1].set_xlabel('Revenue Per Visit ($)', fontsize=10, fontweight='semibold')
-axes[1].set_title('Top 10 Specializations by Revenue Per Visit', 
+axes[1].set_yticks(range(len(cost_per_visit)))
+axes[1].set_yticklabels(cost_per_visit['Specialization'], fontsize=9)
+axes[1].set_xlabel('Cost Per Visit ($)', fontsize=10, fontweight='semibold')
+axes[1].set_title('Top 15 Specializations by Cost Per Visit', 
                   fontsize=11, fontweight='bold', pad=20)
 
 # Add value labels
-for i, (bar, value) in enumerate(zip(bars, revenue_per_visit['Revenue Per Visit'])):
+for i, (bar, value) in enumerate(zip(bars, cost_per_visit['Cost Per Visit'])):
     axes[1].text(bar.get_width() + 5, bar.get_y() + bar.get_height()/2, 
                  f'${value:,.0f}', va='center', ha='left', fontsize=8)
 
