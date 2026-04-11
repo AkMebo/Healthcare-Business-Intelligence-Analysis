@@ -78,12 +78,13 @@ The analysis results were as follows:
 1. The healthcare facility had a consistent decline in revenue and visits from 2020 to 2022 but registered a sharp increase of 20% in 2023.
 2. It is evident that the billing rate of the patients booked has no direct correlation with the growth in revenue or visits, the performance of the facility is significantly influence by the number of patients visits and the cost of service.
 - As observed in 2023, the facility had 66% billing rate of appointments but has the highest growth rate due to its high cost per vist and patient visits.
-3. The specialization that i
+3. The overall top services most requested for in the 4 years were: Radiology, Allergists and Gastroenterology. Concurrently, the 
+- These services had the high visits with relatively low cost apart from Gastroenterology.
 
 ### Recommendation
 #### Based on the analysis conducted, I would recommend the following:
-- 
-- 
+- The facility should consider increasing their prices for Radiology and Allergists which are their most sorted out services to increase revenue.
+- There should be an increase in marketing done on the services to increase traffic of patients.
 
 ### Limitations
 - The zero values in PatientsID were removed since they are considured as no visits
