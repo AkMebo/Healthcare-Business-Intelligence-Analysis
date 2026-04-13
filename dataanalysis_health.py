@@ -401,3 +401,9 @@ plt.tight_layout()
 # Save and show
 plt.savefig('specialization_revenue_analysis.png', bbox_inches='tight', dpi=300)
 plt.show()
+
+# Doing Bivariate Analysis by examaning a corelation matrix of all the features using heatmap
+cmap = sns.diverging_palette(2, 165, s=80, l=55, n=9)
+corrmat = appointments_procedure_cln.corr()
+plt.subplots(figsize=(20, 20))
+sns.heatmap(corrmat, cmap=cmap, annot=True, square=True)
